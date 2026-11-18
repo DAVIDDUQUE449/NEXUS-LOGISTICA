@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.next/
+*.tsbuildinfo
+coverage/
+.env
+.env.*
+!.env.example
+.demo-credentials.local
+test-results/
+playwright-report/
+tests/e2e/screenshots/*.png
+!tests/e2e/screenshots/.gitkeep

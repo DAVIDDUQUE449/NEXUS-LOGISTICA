@@ -1,0 +1,20 @@
+# Dependencias locales de NEXUS LOGISTICS OS (desarrollo). Uso:
+#   docker compose -f infra/compose/docker-compose.yml up -d
+#   PG_SUPERUSER_URL=postgres://postgres:postgres@localhost:5432/postgres pnpm db:setup
+# La contraseña de "postgres" es solo para desarrollo local; nunca reutilizarla en otros entornos.
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports: ["127.0.0.1:5432:5432"]
+    volumes: ["nexus-pg:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 10
+  redis:
+    image: redis:7-alpine
+    ports: ["127.0.0.1:6379:6379"]
+volumes:
+  nexus-pg: {}

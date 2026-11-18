@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      PG_SUPERUSER_URL: postgres://postgres:postgres@localhost:5432/postgres
+      LOGIN_RATE_LIMIT_MAX: "500"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Base de datos (roles, bases, migraciones)
+        run: pnpm db:setup && pnpm db:migrate
+      - name: Compilar
+        run: pnpm build
+      - name: Verificar tipos
+        run: pnpm typecheck
+      - name: Pruebas unitarias e integración (PostgreSQL real)
+        run: pnpm test
+      - name: Seed DEMO y arranque de API + web
+        run: |
+          pnpm db:seed
+          nohup node apps/api/dist/main.js > api.log 2>&1 &
+          (cd apps/web-control-tower && nohup npx next start -p 3000 > ../../web.log 2>&1 &)
+          for i in $(seq 1 30); do curl -sf localhost:3000/api/health/ready && break; sleep 1; done
+      - name: Pruebas E2E (Playwright)
+        run: |
+          npx playwright install --with-deps chromium
+          pnpm test:e2e
+      - if: failure()
+        run: tail -n 100 api.log web.log || true
+
+  secrets:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Escaneo de secretos (Gitleaks)
+        run: |
+          docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:v8.18.4 detect --source /repo --no-banner --redact -v

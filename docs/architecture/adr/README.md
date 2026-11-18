@@ -16,6 +16,7 @@ Cada ADR documenta una decisión, el contexto que la motivó, las alternativas c
 | [ADR-0010](ADR-0010-3d-mapas-proyecciones.md) | Gemelo 3D y mapas como proyecciones de solo lectura | Propuesto | 2026-11-18 |
 | [ADR-0011](ADR-0011-catalogo-skills-seguridad.md) | Catálogo de skills de ciberseguridad como inventario consultable, nunca ejecutable | Propuesto | 2026-11-18 |
 | [ADR-0012](ADR-0012-modo-demo.md) | Modo DEMO aislado por tenant y etiquetado obligatorio | Propuesto | 2026-11-18 |
+| [ADR-0013](ADR-0013-ajustes-implementacion-hitos-1-2.md) | Ajustes de implementación en los Hitos 1–2 (SQL directo, credenciales DEMO, outbox en proceso, mapa esquemático) | Propuesto | 2026-11-18 |
 
 **Estado `Propuesto`:** pendiente de aprobación del propietario del producto. Pasan a `Aceptado` cuando el propietario los valida o cuando el Hito 1 los implementa sin objeciones.
 

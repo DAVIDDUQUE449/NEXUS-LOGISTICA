@@ -2,13 +2,13 @@
 
 > Generado a partir de la especificación maestra V2.0 (2026-11-18). Estados (`G.10`): **PENDIENTE / EN DESARROLLO / IMPLEMENTADO / PROBADO / BLOQUEADO**. Un requisito solo pasa a **PROBADO** con evidencia (commit + comando + salida).
 >
-> **Al cierre del Hito 0, todos los requisitos de producto están PENDIENTE:** todavía no existe código. Lo único completado son los documentos de diseño de la Etapa 0.
+> **Actualizado al cierre de los Hitos 1–2 (2026-11-18).** Evidencia: [REPORTE_HITOS_1_2](../REPORTE_HITOS_1_2.md). «PROBADO» = existe una prueba automatizada que pasa; «IMPLEMENTADO» = código sin prueba dedicada aún; «EN DESARROLLO» = parcial.
 
 ## 1. Requisitos funcionales (Apéndice M)
 
 | ID | Requisito | Hito | Estado | Evidencia |
 |---|---|---|---|---|
-| M.01 | Planeación de red, sedes y centros de operaciones | 1 | PENDIENTE | — |
+| M.01 | Planeación de red, sedes y centros de operaciones | 1 | EN DESARROLLO | Sedes con coordenadas y alcance por sede; faltan enlaces de red, calendarios y capacidad |
 | M.02 | Alta comercial, clientes y cotizador de servicios | 7 | PENDIENTE | — |
 | M.03 | OMS y gestión integral de pedidos | 7 | PENDIENTE | — |
 | M.04 | Compras, abastecimiento y aviso anticipado ASN | 3 | PENDIENTE | — |
@@ -62,31 +62,31 @@ Detalle de pasos y criterios en [CASOS_DE_PRUEBA](../../tests/CASOS_DE_PRUEBA.md
 | U20 | Devolución a remitente y reintegro a stock | Inspección antes de aumento de inventario | 7 | PENDIENTE | — |
 | U21 | App offline captura POD y se reconecta | Idempotente y sin duplicar entrega | 5 | PENDIENTE | — |
 | U22 | Dos mensajeros envían estados contradictorios | Conflicto a revisión, sin sobrescritura | 5 | PENDIENTE | — |
-| U23 | Propuesta IA de desviación | Aprobación humana y reglas de servidor | 2/8 | PENDIENTE | — |
-| U24 | Agente IA intenta modificar stock directamente | Denegación y auditoría | 8 | PENDIENTE | — |
-| U25 | Tenant A consulta guía Tenant B | Acceso denegado en API y DB | 1 | PENDIENTE | — |
+| U23 | Propuesta IA de desviación | Aprobación humana y reglas de servidor | 2/8 | PROBADO | `ai-approval.spec.ts` (6 casos) + E2E `U23 en la UI` |
+| U24 | Agente IA intenta modificar stock directamente | Denegación y auditoría | 8 | EN DESARROLLO | Política `AGENT_CANNOT_MUTATE` probada en domain-core; faltan identidades de agente en la API (Hito 8) |
+| U25 | Tenant A consulta guía Tenant B | Acceso denegado en API y DB | 1 | PROBADO | `database-security.spec.ts` (SQL) + `tenancy.spec.ts` (API) |
 | U26 | Cliente consulta POD de envío ajeno | Acceso denegado | 7 | PENDIENTE | — |
 | U27 | Cliente crea guía masiva con ID duplicado | Idempotencia | 7 | PENDIENTE | — |
 | U28 | Capacidad de vehículo insuficiente | Bloqueo o propuesta alternativa | 6 | PENDIENTE | — |
 | U29 | Contrato impide cambio de valor COD al salir a reparto | Bloqueo/auditoría | 5 | PENDIENTE | — |
 | U30 | Fallo de internet/servicio de mapas | Flujos críticos degradan sin perder datos | 10 | PENDIENTE | — |
-| U31 | Fallo del servicio de IA | WMS/Parcel/TMS continúan operando | 8 | PENDIENTE | — |
+| U31 | Fallo del servicio de IA | WMS/Parcel/TMS continúan operando | 8 | IMPLEMENTADO | Sin proveedor de IA: opera el motor de reglas; falta prueba de caída del proveedor (Hito 8) |
 | U32 | Dashboard KPI cruza hub, WMS, TMS y POD | Misma fuente de eventos y números | 8 | PENDIENTE | — |
 | U33 | 3D muestra un muelle ocupado | Estado corresponde a YMS real/demo | 8 | PENDIENTE | — |
 | U34 | Auditor investiga paquete perdido | Timeline y chain-of-custody completa | 10 | PENDIENTE | — |
-| U35 | Supervisor revoca turno de un mensajero | Operaciones futuras bloqueadas | 1/5 | PENDIENTE | — |
+| U35 | Supervisor revoca turno de un mensajero | Operaciones futuras bloqueadas | 1/5 | EN DESARROLLO | Revocación de usuario/sesiones probada (S-P0-07); falta revocación de turno (Hito 5) |
 | U36 | Escanear el mismo paquete dos veces concurrentemente | No duplica movimiento ni saldo | 3 | PENDIENTE | — |
 | U37 | Transferencia interbodega parcial | Origen y destino conciliados | 3 | PENDIENTE | — |
 | U38 | Exceso de temperatura en lote | Retención/alerta y autorización de liberación | 3 | PENDIENTE | — |
 | U39 | Importación ecommerce repetida | Pedidos no duplicados | 7 | PENDIENTE | — |
-| U40 | Motor de recomendaciones sin base de calidad | Presenta incertidumbre, no certeza falsa | 8 | PENDIENTE | — |
+| U40 | Motor de recomendaciones sin base de calidad | Presenta incertidumbre, no certeza falsa | 8 | EN DESARROLLO | Regla `data_quality` probada en `route-rules.spec.ts`; falta escenario con GPS antiguo en UI |
 | U41 | Flujo de reclamación por daño | Expediente con evidencia y permisos | 7 | PENDIENTE | — |
 | U42 | Arqueo diario de mensajero | Diferencias visibles y no editables sin causa | 5 | PENDIENTE | — |
-| U43 | Cambio de sede en un usuario autorizado | Datos filtrados por sede y tenant | 1 | PENDIENTE | — |
-| U44 | Mobile 360px: escaneo/POD con una mano | Botones y navegación funcionales | 10 | PENDIENTE | — |
+| U43 | Cambio de sede en un usuario autorizado | Datos filtrados por sede y tenant | 1 | PROBADO | `tenancy.spec.ts` (alcance por sede y cambio de sede rechazado) |
+| U44 | Mobile 360px: escaneo/POD con una mano | Botones y navegación funcionales | 10 | EN DESARROLLO | E2E 360 px del Command Center sin desbordamiento; faltan PWA de escaneo/POD |
 | U45 | Accesibilidad: lector de pantalla y teclado | Acciones críticas accesibles | 10 | PENDIENTE | — |
 | U46 | Red sin GPS disponible | Entrega con evidencia alternativa y política | 5 | PENDIENTE | — |
-| U47 | Registros sin fecha de última sincronización | UI muestra fuente no actualizada | 2 | PENDIENTE | — |
+| U47 | Registros sin fecha de última sincronización | UI muestra fuente no actualizada | 2 | EN DESARROLLO | La UI muestra «Última sincronización» y estado en línea; falta aviso explícito de datos desactualizados |
 | U48 | Acceso al catálogo de 818 skills | Inventario completo; sin ejecución ofensiva | 9 | PENDIENTE | — |
 | U49 | Aplicación de módulos activables | WMS y paquetería operan juntos, y por separado | 1/7 | PENDIENTE | — |
 | U50 | Publicación final con checklist de videos | Controles de seguridad/performance/SEO aplicables verificados | 10 | PENDIENTE | — |
@@ -95,13 +95,13 @@ Detalle de pasos y criterios en [CASOS_DE_PRUEBA](../../tests/CASOS_DE_PRUEBA.md
 
 | ID | Prueba | Prioridad | Hito | Estado |
 |---|---|---|---|---|
-| S-P0-01 | Acceso cruzado entre tenants/sedes | P0 | 1 | PENDIENTE |
+| S-P0-01 | Acceso cruzado entre tenants/sedes | P0 | 1 | PROBADO (envíos, viajes, recomendaciones, contexto); ampliar a cada endpoint nuevo |
 | S-P0-02 | Privilegio de agentes | P0 | 8 | PENDIENTE |
 | S-P0-03 | Inyección indirecta | P0 | 8 | PENDIENTE |
-| S-P0-04 | Autorización en API y WebSocket | P0 | 1 | PENDIENTE |
-| S-P0-05 | Secretos y vulnerabilidades críticas en CI | P0 | 1 | PENDIENTE |
-| S-P0-06 | Auditoría de acciones críticas | P0 | 1 | PENDIENTE |
-| S-P0-07 | Sesiones y revocación | P0 | 1 | PENDIENTE |
+| S-P0-04 | Autorización en API y WebSocket | P0 | 1 | IMPLEMENTADO (SSE filtrado por tenant y sede; falta prueba dedicada) |
+| S-P0-05 | Secretos y vulnerabilidades críticas en CI | P0 | 1 | EN DESARROLLO (Gitleaks en CI; falta SAST/SCA) |
+| S-P0-06 | Auditoría de acciones críticas | P0 | 1 | PROBADO (cadena de hash verificada) |
+| S-P0-07 | Sesiones y revocación | P0 | 1 | PROBADO |
 | S-P1-01 | Gestión de dependencias (SBOM) | P1 | 1 | PENDIENTE |
 | S-P1-02 | Respuesta y recuperación | P1 | 10 | PENDIENTE |
 | S-P1-03 | Centro de seguridad con datos reales | P1 | 9 | PENDIENTE |
@@ -222,8 +222,8 @@ Detalle de pasos y criterios en [CASOS_DE_PRUEBA](../../tests/CASOS_DE_PRUEBA.md
 | Q.04.2 | PRD funcional y mapa de módulos/roles/flujos | EN DESARROLLO — arquitectura, roles, sitemap y plan creados |
 | Q.04.3 | Ocho pantallas estrella implementables | PENDIENTE |
 | Q.04.4 | Design system Aurora Glass Light/Dark | PENDIENTE |
-| Q.04.5 | Código fuente runnable + docker compose + .env.example | PENDIENTE |
-| Q.04.6 | BD, migraciones y seeds multioperación | PENDIENTE |
+| Q.04.5 | Código fuente runnable + docker compose + .env.example | EN DESARROLLO — Core + Command Center ejecutables |
+| Q.04.6 | BD, migraciones y seeds multioperación | EN DESARROLLO — esquemas core/fleet/tms/parcel/ai + seed DEMO |
 | Q.04.7 | UI desktop/web de todos los módulos | PENDIENTE |
 | Q.04.8 | Apps operativas PWA (Pick/Pack/Sort/Driver/Entregas/Points/Recepción) | PENDIENTE |
 | Q.04.9 | Portal de empresas | PENDIENTE |
@@ -231,10 +231,10 @@ Detalle de pasos y criterios en [CASOS_DE_PRUEBA](../../tests/CASOS_DE_PRUEBA.md
 | Q.04.11 | API OpenAPI + webhooks | PENDIENTE |
 | Q.04.12 | Motor de notificaciones con consentimiento | PENDIENTE |
 | Q.04.13 | Gemelo digital conectado | PENDIENTE |
-| Q.04.14 | Seis agentes IA + habilidades con aprobación | PENDIENTE |
+| Q.04.14 | Seis agentes IA + habilidades con aprobación | EN DESARROLLO — Route y Exception Agent (reglas) con aprobación |
 | Q.04.15 | Catálogo GitHub completo inventariado | PENDIENTE |
 | Q.04.16 | Dashboards KPI con fórmulas | PENDIENTE |
-| Q.04.17 | Pruebas automatizadas U01–U50 | PENDIENTE |
+| Q.04.17 | Pruebas automatizadas U01–U50 | EN DESARROLLO — 62 pruebas automatizadas; U23, U25, U43 completos |
 | Q.04.18 | Plan de salida a producción | PENDIENTE |
 | Q.04.19 | Manual por rol y tutorial contextual | PENDIENTE |
 | Q.04.20 | Reporte final de evidencia | PENDIENTE |

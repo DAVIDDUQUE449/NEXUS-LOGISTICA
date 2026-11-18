@@ -1,0 +1,26 @@
+{
+  "name": "nexus-logistics-os",
+  "private": true,
+  "version": "0.1.0",
+  "description": "NEXUS LOGISTICS OS — Plataforma Integral de Operaciones Logísticas",
+  "packageManager": "pnpm@10.28.0",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "pnpm -r --filter \"./packages/**\" build && pnpm --filter @nexus/api build && pnpm --filter @nexus/web-control-tower build",
+    "build:packages": "pnpm -r --filter \"./packages/**\" build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r --filter \"./packages/**\" test && pnpm --filter @nexus/api test",
+    "test:e2e": "playwright test --config tests/e2e/playwright.config.ts --trace off",
+    "db:setup": "bash scripts/db-setup.sh",
+    "db:migrate": "node database/migrate.mjs",
+    "db:seed": "pnpm --filter @nexus/api seed",
+    "dev:api": "pnpm --filter @nexus/api dev",
+    "dev:web": "pnpm --filter @nexus/web-control-tower dev",
+    "start:api": "pnpm --filter @nexus/api start",
+    "start:web": "pnpm --filter @nexus/web-control-tower start"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "typescript": "5.9.3"
+  }
+}
