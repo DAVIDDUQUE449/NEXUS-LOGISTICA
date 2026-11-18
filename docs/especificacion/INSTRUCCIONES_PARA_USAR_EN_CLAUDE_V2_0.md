@@ -1,0 +1,7 @@
+# NEXUS LOGISTICS OS V2.0 — Cómo comenzar en Claude
+
+Adjunta el archivo **NEXUS_LOGISTICS_OS_PROMPT_MAESTRO_FINAL_V2_0_MULTIOPERACION.md** a Claude Code o a la IA de programación que utilices y escribe lo siguiente:
+
+> Lee TODO el archivo adjunto y considéralo la especificación maestra vigente de NEXUS LOGISTICS OS V2.0. Respeta la precedencia de los Apéndices L–Q. Este es un sistema multioperación TODO EN UNO: WMS, OMS, HUB/Parcel, picking, packing, TMS, flota, última milla, apps operativas, PUDO, COD, CRM, BI, IA, seguridad y digital twin 3D. Mantén la pantalla inicial clara, blanca-violeta Liquid Glass elegida por el propietario. Usa Coordinadora Mercantil S. A. solamente como referencia operativa documentada, nunca como una integración ya existente. Primero genera ADR, arquitectura, esquema de base de datos, mapa de roles, sitemap, plan por hitos y casos de prueba; después implementa por flujos verticales completos con evidencia de pruebas. Preserva la exigencia de integrar el 100 % del catálogo GitHub como inventario consultable bajo controles de seguridad. No afirmes funcionalidades sin implementar ni datos en tiempo real que no existan. En cada etapa reporta exactamente el código creado, comandos ejecutados, pruebas aprobadas y pendientes.
+
+**Advertencia:** ningún modelo construye todo el sistema solo por recibir el prompt. El proyecto requiere ejecución, infraestructura, credenciales autorizadas, revisiones legales y validación técnica.
